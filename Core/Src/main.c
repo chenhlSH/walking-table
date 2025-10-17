@@ -224,7 +224,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
+  htim3.Init.Period = 7199;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -328,7 +328,7 @@ void motor_move_entry(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	Set_PWM(60000,60000);
+	Set_PWM(6000,6000);
     osDelay(1);
   }
   /* USER CODE END motor_move_entry */
