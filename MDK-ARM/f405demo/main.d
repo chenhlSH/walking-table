@@ -30,6 +30,7 @@ f405demo\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 f405demo\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 f405demo\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 f405demo\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+f405demo\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 f405demo\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 f405demo\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 f405demo\main.o: ../Core/Inc/FreeRTOSConfig.h
@@ -41,5 +42,10 @@ f405demo\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers
 f405demo\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 f405demo\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 f405demo\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+f405demo\main.o: ../Core/Inc/dma.h
+f405demo\main.o: ../Core/Inc/tim.h
+f405demo\main.o: ../Core/Inc/usart.h
+f405demo\main.o: ../Core/Inc/gpio.h
 f405demo\main.o: ../MDK-ARM/app/MotorContrl.h
+f405demo\main.o: ../MDK-ARM/app/ax_ps2.h
 f405demo\main.o: ../MDK-ARM/app/ax_ps2.h

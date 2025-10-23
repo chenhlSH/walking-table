@@ -1,152 +1,99 @@
-/**			                                                    
-		   ____                    _____ _______ _____       XTARK@塔克创新
-		  / __ \                  / ____|__   __|  __ \ 
-		 | |  | |_ __   ___ _ __ | |       | |  | |__) |
-		 | |  | | '_ \ / _ \ '_ \| |       | |  |  _  / 
-		 | |__| | |_) |  __/ | | | |____   | |  | | \ \ 
-		  \____/| .__/ \___|_| |_|\_____|  |_|  |_|  \_\
-				| |                                     
-				|_|                OpenCTR   机器人控制器
-									 
-  ****************************************************************************** 
-  *           
-  * 版权所有： XTARK@塔克创新  版权所有，盗版必究
-  * 公司网站： www.xtark.cn   www.tarkbot.com
-  * 淘宝店铺： https://xtark.taobao.com  
-  * 塔克微信： 塔克创新（关注公众号，获取最新更新资讯）
-  *      
-  ******************************************************************************
-  * @作  者  Musk Han@XTARK
-  * @版  本  V1.0
-  * @日  期  2022-7-26
-  * @内  容  PS2无线手柄函数文件
-  *
-  ******************************************************************************
-  * @说  明
-  *
-  *   PS2数据定义
-  *   BYTE   DATA   解释
-  *   01     idle
-  *   02     0x73   手柄工作模式
-  *   03     0x5A   Bit0  Bit1  Bit2  Bit3  Bit4  Bit5  Bit6  Bit7
-  *   04     data   SLCT  JOYR  JOYL  STRT   UP   RGIHT  DOWN   L
-  *   05     data   L2     R2     L1    R1   /\     O     X    口
-  *   06     data   右边摇杆  0x00 = 左    0xff = 右
-  *   07     data   右边摇杆  0x00 = 上    0xff = 下
-  *   08     data   左边摇杆  0x00 = 左    0xff = 右
-  *   09     data   左边摇杆  0x00 = 上    0xff = 下
-  * 
-  ******************************************************************************
-  */
-
 #include "ax_ps2.h"
 
+///* 全局变量定义 */
+//osMessageQueueId_t uartRxQueueHandle = NULL;
+//osThreadId_t uuartReceiveTaskHandle = NULL;
+//uint8_t uart_rx_byte = 0; // 中断接收单字节数据的缓冲区
 
+///**
+//  * @brief  初始化USART1（通常由CubeMX在main.c中生成，此处为示例）
+//  * @param  无
+//  * @retval 无
+//  */
+////void MX_USART1_UART_Init(void)
+////{
+////  // 此函数内容通常由CubeMX根据你的配置自动生成在main.c中
+////  // 主要包括huart1的Instance、波特率、字长、停止位、校验位、模式等初始化
+////  // 确保在NVIC Settings中使能了USART1全局中断
+////}
 
+///**
+//  * @brief  创建串口接收相关的FreeRTOS组件（在main.c的初始化后调用）
+//  * @param  无
+//  * @retval 无
+//  */
+//void Create_UART_Related_Objects(void)
+//{
+//  /* 创建消息队列 */
+//  const osMessageQueueAttr_t uart_rx_queue_attributes = {
+//    .name = "uart_rx_queue"
+//  };
+//  uartRxQueueHandle = osMessageQueueNew(UART_RX_QUEUE_LENGTH, UART_RX_QUEUE_ITEM_SIZE, &uart_rx_queue_attributes);
 
-//PS2手柄的输入输出口
-#define DI()     PAin(4)      //数据输入引脚
+//  /* 创建串口接收任务 */
+//  const osThreadAttr_t uart_receive_task_attributes = {
+//    .name = "UARTReceiveTask",
+//    .stack_size = 1024 * 4, // 可根据需要调整堆栈大小
+//    .priority = osPriorityAboveNormal, // 给予较高优先级以便及时处理数据
+//  };
+//  uartReceiveTaskHandle = osThreadNew(Start_UART_Receive_Task, NULL, &uart_receive_task_attributes);
+//}
 
-#define CMD_H()   PAout(5)=1   //命令位高
-#define CMD_L()   PAout(5)=0   //命令位低
+///**
+//  * @brief  串口接收任务主体函数
+//  * @param  argument: FreeRTOS任务参数
+//  * @retval 无
+//  */
+//void Start_UART_Receive_Task(void *argument)
+//{
+//  uint8_t received_byte;
+//  osStatus_t queue_status;
+//  /* 初始化：启动第一次串口接收中断 */
+//  HAL_UART_Receive_IT(&huart1, &uart_rx_byte, 1);
 
-#define CS_H()   PCout(4)=1    //CS拉高(别名ATT)
-#define CS_L()   PCout(4)=0    //CS拉低(别名ATT)
+//  /* 任务主循环 */
+//  for (;;) {
+//    /* 等待消息队列，最大等待时间可取portMAX_DELAY */
+//    queue_status = osMessageQueueGet(uartRxQueueHandle, &received_byte, NULL, portMAX_DELAY);
 
-#define CLK_H()  PCout(5)=1    //时钟拉高
-#define CLK_L()  PCout(5)=0    //时钟拉低
+//    if (queue_status == osOK) {
+//      /* 在这里处理接收到的单个字节数据 'received_byte' */
 
+//      // 示例1：简单回显（可用于测试）
+//      HAL_UART_Transmit(&huart1, &received_byte, 1, 100);
 
-const  uint8_t PS2_cmnd[9] = {0x01, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};   //请求获取数据命令                         
-static uint8_t PS2_data[9] = {0};  //接收的数据
+//      // 示例2：自定义协议解析（关键部分）
+//      // 您可以在此处实现状态机，根据帧头、帧尾、长度等规则
+//      // 将连续的单个字节拼接成完整的一帧数据。
+//      // 当一帧数据接收完成后，可以通过另一个队列、任务通知、事件标志组等
+//      // 将完整的帧数据发送给等待处理的其他应用任务。
+//      // 例如：xQueueSend(applicationTaskQueue, &complete_frame, 0);
+//    }
+//    // 注意：osDelay不应在此使用，因为osMessageQueueGet已经阻塞了任务
+//    // 如果需要周期性的执行其他操作，可以考虑使用定时器或在协议解析逻辑中控制
+//  }
+//}
 
+///**
+//  * @brief  串口接收完成回调函数（在中断服务程序上下文被调用）
+//  * @param  huart: 串口句柄
+//  * @retval 无
+//  */
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//  BaseType_t xHigherPriorityTaskWoken = pdFALSE; // 默认为假
 
-// 此代码适用于SysTick仍作为时钟源的情况（例如未使用FreeRTOS时）
-void AX_Delayus(uint32_t us)
-{
-	uint32_t temp;
-	
-	SysTick->LOAD=21*us; 				 		 
-	SysTick->VAL=0x00;        				
-	SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk ;  	 
-	
-	do
-	{
-		temp=SysTick->CTRL;
-	}
-	while((temp&0x01)&&!(temp&(1<<16)));	 
-	
-	SysTick->CTRL&=~SysTick_CTRL_ENABLE_Msk; 
-	SysTick->VAL =0X00;    
+//  if (huart->Instance == USART1) {
+//    /* 1. 将接收到的数据发送到消息队列（从中断安全函数发送） */
+//    if (osMessageQueuePut(uartRxQueueHandle, &uart_rx_byte, 0, 0) != osOK) {
+//      // 处理队列已满的情况，例如可以丢弃数据或记录错误
+//      // 例如：HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+//    }
 
-}
+//    /* 2. 立即重新启动串口接收中断，准备接收下一个字节 */
+//    HAL_UART_Receive_IT(huart, &uart_rx_byte, 1);
 
-/**
-  * @简  述  PS2数据读写函数
-  * @参  数  data:要写入的数据
-  * @返回值  读出数据
-  */
-static uint8_t PS2_ReadWriteData(uint8_t data)
-{
-	static uint8_t ref,res;
-	
-	
-	for(ref = 0x01; ref > 0x00; ref <<= 1)
-	{
-		CLK_L();
-		if(ref&data)
-			CMD_H();
-		else
-			CMD_L();	
-		
-		AX_Delayus(16);
-
-		CLK_H();
-		if(DI())
-			res |= ref; 
-
-		AX_Delayus(16);		
-	}
-	
-	CMD_H();
-
-	//返回读出数据
-    return res;	
-}
-
-/**
-  * @简  述  PS2获取按键及摇杆数值。
-  * @参  数  *JoystickStruct 手柄键值结构体
-  * @返回值  无
-  */
-void AX_PS2_ScanKey(JOYSTICK_TypeDef *JoystickStruct)
-{
-	uint8_t i;
-	
-	//使能手柄
-	CS_L();
-	
-	//读取PS2数据
-	for(i=0; i<9; i++)
-	{
-		PS2_data[i] = PS2_ReadWriteData(PS2_cmnd[i]);
-		AX_Delayus(16);
-
-	}
-	
-	//关闭使能
-	CS_H();
-
-	//数值传递
-	JoystickStruct->mode = PS2_data[1];
-	JoystickStruct->btn1 = ~PS2_data[3];
-	JoystickStruct->btn2 = ~PS2_data[4];
-	JoystickStruct->RJoy_LR = PS2_data[5];
-	JoystickStruct->RJoy_UD = PS2_data[6];
-	JoystickStruct->LJoy_LR = PS2_data[7];
-	JoystickStruct->LJoy_UD = PS2_data[8];
-}
-
-
-
-/******************* (C) 版权 2022 XTARK **************************************/
+//    /* 如果需要，可以进行任务切换（由内核决定） */
+//    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+//  }
+//}

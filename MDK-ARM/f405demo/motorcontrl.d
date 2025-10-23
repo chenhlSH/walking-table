@@ -30,6 +30,7 @@ f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 f405demo\motorcontrl.o: ../Core/Inc/main.h
 f405demo\motorcontrl.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 f405demo\motorcontrl.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
