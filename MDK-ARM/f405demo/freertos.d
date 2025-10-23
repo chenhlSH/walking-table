@@ -43,5 +43,7 @@ f405demo\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 f405demo\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 f405demo\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 f405demo\freertos.o: ../MDK-ARM/app/MotorContrl.h
-f405demo\freertos.o: ../MDK-ARM/app/ax_ps2.h
 f405demo\freertos.o: ../Core/Inc/usart.h
+f405demo\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+f405demo\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+f405demo\freertos.o: ../MDK-ARM/app/ax_ps2.h

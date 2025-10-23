@@ -168,25 +168,26 @@ void DebugMon_Handler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-	
-  // 1. 检查是否产生空闲中断
+
+  /* 1. 检查并处理UART空闲中断 */
   if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) != RESET)
   {
-    // 2. 清除空闲中断标志！这一步非常重要，否则会持续进入中断。
     __HAL_UART_CLEAR_IDLEFLAG(&huart1);
-
-    // 3. 停止本次DMA传输，防止后续数据覆盖缓冲区
     HAL_UART_DMAStop(&huart1);
-
-    // 4. 计算本次接收到的数据长度
-    // 公式：设定的缓冲区大小 - DMA寄存器中剩余未传输的数据量 = 已接收的数据量
     uart_rx_length = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(huart1.hdmarx);
-
-    // 5. 设置接收完成标志，通知主循环处理数据
-    uart_rx_complete = 1;
-
-    // 6. 重新启动DMA接收，准备接收下一帧数据
+    uart_rx_complete = 1; // 标记整帧接收完成
     HAL_UART_Receive_DMA(&huart1, uart_rx_buffer, RX_BUFFER_SIZE);
+  }
+
+  /* 2. 新增：检查并处理DMA半传输中断 */
+  if (__HAL_DMA_GET_FLAG(&hdma_usart1_rx, __HAL_DMA_GET_HT_FLAG_INDEX(&hdma_usart1_rx)) != RESET)
+  {
+    // 清除半传输中断标志
+    __HAL_DMA_CLEAR_FLAG(&hdma_usart1_rx, __HAL_DMA_GET_HT_FLAG_INDEX(&hdma_usart1_rx));
+    
+    // 计算已接收的数据长度（此时是缓冲区的一半）
+    uart_rx_half_length = RX_BUFFER_SIZE / 2;
+    half_transfer_complete = 1; // 设置半传输完成标志
   }
 
   /* USER CODE END USART1_IRQn 0 */

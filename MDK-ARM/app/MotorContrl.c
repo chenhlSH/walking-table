@@ -1,5 +1,5 @@
 #include "MotorContrl.h"
-
+#include "utils.h"
 
 /*************************************************************
 函数功能：PWM赋值
@@ -10,9 +10,10 @@ void Motor_contrl(JOYSTICK_TypeDef JOYSTICK)
 {  
    Start_PWM(&htim3);
    Start_PWM(&htim5);
-   Set_PWM(&htim3,2000,2000);
-   Set_PWM(&htim5,JOYSTICK.RJoy_LR*10,JOYSTICK.RJoy_LR*10);
+   Set_PWM(&htim3,1500,1500);
+   Set_PWM(&htim5,fof_update(JOYSTICK.RJoy_LR*10),fof_update(JOYSTICK.RJoy_LR*10));
 }
+
 void Set_PWM(TIM_HandleTypeDef *htim,int motor_left,int motor_right)
 {	motor_left = (motor_left > 7200) ? 7200 : motor_left;
    motor_left = (motor_left < -7200) ? -7200 : motor_left;

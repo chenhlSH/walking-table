@@ -4,7 +4,7 @@
 #include "stm32f4xx_hal_tim.h"   // ��ʱ��HAL��ͷ�ļ�
 #include "main.h"
 #include "cmsis_os.h"
-#include "ax_ps2.h"
+
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim5;
 typedef struct			 				

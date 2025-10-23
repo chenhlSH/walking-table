@@ -48,4 +48,5 @@ f405demo\main.o: ../Core/Inc/usart.h
 f405demo\main.o: ../Core/Inc/gpio.h
 f405demo\main.o: ../MDK-ARM/app/MotorContrl.h
 f405demo\main.o: ../MDK-ARM/app/ax_ps2.h
-f405demo\main.o: ../MDK-ARM/app/ax_ps2.h
+f405demo\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+f405demo\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

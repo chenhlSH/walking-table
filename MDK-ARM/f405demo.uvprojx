@@ -858,6 +858,11 @@
               <FileType>1</FileType>
               <FilePath>.\app\ax_ps2.c</FilePath>
             </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\app\utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
