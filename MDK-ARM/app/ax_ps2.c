@@ -1,6 +1,27 @@
 #include "ax_ps2.h"
 
+void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
+{
+  /* 首先判断是哪个串口触发的中断，这在有多个串口时非常必要 */
+  if (huart->Instance == USART1) // 假设是USART1
+  {
+    /* 这里是您的应用逻辑实现区 */
+    // 1. 此时，DMA已经将数据填充至接收缓冲区的前半部分
+    // 2. 您可以安全地处理这前半部分数据
+    // 例如：Process_Received_Data(rx_buffer, RX_BUFFER_SIZE / 2);
+	uart_rx_complete = 1;
+	  
+	 
+    // 示例：点亮一个LED指示半传输发生
+    // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  }
 
+  /* 如果还有其他串口（如USART2）也使用了半传输中断，可以继续添加判断 */
+  // else if (huart->Instance == USART2)
+  // {
+  //   // 处理USART2的数据
+  // }
+}
 // 解析摇杆数据函数
 uint8_t parse_joystick_data(const char* data, JOYSTICK_TypeDef* joy) {
     const char* tokens[] = {"RJOY_LR:", "RJOY_UD:", "LJOY_LR:", "LJOY_UD:"};

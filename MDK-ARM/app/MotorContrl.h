@@ -7,6 +7,7 @@
 
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim5;
+extern const float k_;
 typedef struct			 				
 {
   uint8_t mode;		    /* 手柄的工作模式 */

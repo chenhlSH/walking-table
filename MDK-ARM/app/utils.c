@@ -1,4 +1,5 @@
 #include "utils.h"
+const float k_=0.1;
 float fof_update(float input) {
 
   input_ = input;

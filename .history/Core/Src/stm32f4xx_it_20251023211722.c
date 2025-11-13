@@ -169,17 +169,26 @@ void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
 
-  /* 1. 锟斤拷椴拷锟斤拷锟経ART锟斤拷锟斤拷锟叫讹拷 */
-//  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) != RESET)
-//  {
-//    __HAL_UART_CLEAR_IDLEFLAG(&huart1);
-//    HAL_UART_DMAStop(&huart1);
-//    uart_rx_length = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(huart1.hdmarx);
-//    uart_rx_complete = 1; // 锟斤拷锟斤拷锟街★拷锟斤拷锟斤拷锟斤拷
-//    HAL_UART_Receive_DMA(&huart1, uart_rx_buffer, RX_BUFFER_SIZE);
-//  }
+  /* 1. 检查并处理UART空闲中断 */
+  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) != RESET)
+  {
+    __HAL_UART_CLEAR_IDLEFLAG(&huart1);
+    HAL_UART_DMAStop(&huart1);
+    uart_rx_length = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(huart1.hdmarx);
+    uart_rx_complete = 1; // 标记整帧接收完成
+    HAL_UART_Receive_DMA(&huart1, uart_rx_buffer, RX_BUFFER_SIZE);
+  }
 
-
+  /* 2. 新增：检查并处理DMA半传输中断 */
+  if (__HAL_DMA_GET_FLAG(&hdma_usart1_rx, __HAL_DMA_GET_HT_FLAG_INDEX(&hdma_usart1_rx)) != RESET)
+  {
+    // 清除半传输中断标志
+    __HAL_DMA_CLEAR_FLAG(&hdma_usart1_rx, __HAL_DMA_GET_HT_FLAG_INDEX(&hdma_usart1_rx));
+    
+    // 计算已接收的数据长度（此时是缓冲区的一半）
+    uart_rx_half_length = RX_BUFFER_SIZE / 2;
+    half_transfer_complete = 1; // 设置半传输完成标志
+  }
 
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
