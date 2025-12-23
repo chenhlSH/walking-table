@@ -169,18 +169,6 @@ void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
 
-  /* 1. ��鲢����UART�����ж� */
-//  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) != RESET)
-//  {
-//    __HAL_UART_CLEAR_IDLEFLAG(&huart1);
-//    HAL_UART_DMAStop(&huart1);
-//    uart_rx_length = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(huart1.hdmarx);
-//    uart_rx_complete = 1; // �����֡�������
-//    HAL_UART_Receive_DMA(&huart1, uart_rx_buffer, RX_BUFFER_SIZE);
-//  }
-
-
-
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
