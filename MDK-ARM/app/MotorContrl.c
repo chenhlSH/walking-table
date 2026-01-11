@@ -36,14 +36,14 @@ void Motor_init(void)
 
 void Motor_contrl(JOYSTICK_TypeDef JOYSTICK)
 {  
-   v_input.vx = JOYSTICK.RJoy_LR;
-   v_input.vy = JOYSTICK.RJoy_UD;
-   v_input.omega = JOYSTICK.LJoy_LR;//第一步处理
+   v_input.vx = JOYSTICK.RJoy_LR-0x80;
+   v_input.vy = JOYSTICK.RJoy_UD-0x7f;
+   v_input.omega = JOYSTICK.LJoy_LR-0x80;//第一步处理
    omni_wheel_inverse_kinematics(v_input,&chassis);
-   Set_PWM(&htim3,chassis.motors[0].targetspeed,chassis.motors[1].targetspeed);
-   Set_PWM(&htim5,chassis.motors[2].targetspeed,chassis.motors[3].targetspeed);
-}
+   Set_PWM(&htim3,fof_update(&chassis.motors[0]),fof_update(&chassis.motors[1]));
 
+    Set_PWM(&htim5,fof_update(&chassis.motors[2]),fof_update(&chassis.motors[3])); 
+}
 void Set_PWM(TIM_HandleTypeDef *htim,int motor_left,int motor_right)
 {	motor_left = (motor_left > 7200) ? 7200 : motor_left;
    motor_left = (motor_left < -7200) ? -7200 : motor_left;
@@ -51,7 +51,7 @@ void Set_PWM(TIM_HandleTypeDef *htim,int motor_left,int motor_right)
    motor_right = (motor_right < -7200) ? -7200 : motor_right;
 
    if(motor_left>0)   
-   {  
+   {   
 	   __HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1,7200);
 	   __HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_2,7200-motor_left);
    }
@@ -101,18 +101,13 @@ void Start_PWM(TIM_HandleTypeDef *htim)
 
 
 
-// Chassic_State fof_update(Chassic_State input) {
+float fof_update(Single_Motor* input) {
 
-//   for (int i=1; i<MOTORNUMBER; i++) {
-    
-//     input_[i] = chassis.motor[i].targetspeed;  // Current input value    
-//     output_[i] = chassis.motor[i].lastspeed; // Current output value
+    input->lastspeed = input->lastspeed * (1 - k_) + input->targetspeed * k_;
 
-//     output_[i] = output_[i] * (1 - k_) + input_[i] * k_;
-//   }
-//     return output_;
+    return input->lastspeed;
 	
-// }
+}
 
 
 
@@ -160,14 +155,16 @@ void Start_PWM(TIM_HandleTypeDef *htim)
  * 安装角度：45°（典型全向轮安装方式）
  */
 void omni_wheel_inverse_kinematics(Velocity_Input input, Chassic_State* chassis_) {
-    // 全向轮运动学逆解公式[4,6](@ref)
+    // 全向轮运动学逆解公式[4,6](@ref)输出 chassis_->motors[i].targetspeed 的单位是 1/s（即线速度/轮半径 → 角速度，rad/s），因为公式最后除以 wheel_radius。
+
     // 考虑轮子安装角度为45°的情况
-    chassis_->motors[0].targetspeed = ( input.vx * cos45 - input.vy * cos45 - input.omega * R) / chassis_params.wheel_radius;  // 前左轮
-    chassis_->motors[1].targetspeed = (-input.vx * cos45 - input.vy * cos45 - input.omega * R) / chassis_params.wheel_radius;  // 前右轮
-    chassis_->motors[2].targetspeed = ( input.vx * cos45 + input.vy * cos45 + input.omega * R) / chassis_params.wheel_radius;  // 后左轮
-    chassis_->motors[3].targetspeed = (-input.vx * cos45 + input.vy * cos45 + input.omega * R) / chassis_params.wheel_radius;  // 后右轮
+    chassis_->motors[0].targetspeed = ( input.vx * cos45 - input.vy * cos45 - input.omega * R) / chassis_params.wheel_radius*30;  // 前左轮
+    chassis_->motors[1].targetspeed = (-input.vx * cos45 - input.vy * cos45 - input.omega * R) / chassis_params.wheel_radius*30;  // 前右轮
+    chassis_->motors[2].targetspeed = ( input.vx * cos45 + input.vy * cos45 - input.omega * R) / chassis_params.wheel_radius*30;  // 后左轮
+    chassis_->motors[3].targetspeed = (-input.vx * cos45 + input.vy * cos45 - input.omega * R) / chassis_params.wheel_radius*30;  // 后右轮
     
     // 注：如果轮子安装角度不同，需要调整上述公式中的角度参数[7](@ref)
+    
 }
 
 

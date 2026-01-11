@@ -62,7 +62,7 @@ extern Velocity_Input v_input;
 void omni_wheel_inverse_kinematics(Velocity_Input input, Chassic_State* chassis_);
 
 extern const float k_;      // Smoothing factor (0 < k < 1)
-float fof_update(Single_Motor input);
+float fof_update(Single_Motor* input);
 
 
 static JOYSTICK_TypeDef table_state;
