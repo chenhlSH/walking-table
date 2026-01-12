@@ -26,6 +26,7 @@ f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
+f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_iwdg.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 f405demo\motorcontrl.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
@@ -43,4 +44,5 @@ f405demo\motorcontrl.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_w
 f405demo\motorcontrl.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 f405demo\motorcontrl.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 f405demo\motorcontrl.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+f405demo\motorcontrl.o: ../Core/Inc/iwdg.h
 f405demo\motorcontrl.o: app\utils.h

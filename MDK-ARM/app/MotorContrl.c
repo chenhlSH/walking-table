@@ -28,8 +28,8 @@ Velocity_Input v_input;// 速度输入结构体实例
 *************************************************************/
 void Motor_init(void)
 {
-    Stop_PWM(&htim3);
-    Stop_PWM(&htim5);
+    // Stop_PWM(&htim3);
+    // Stop_PWM(&htim5);
 	
     Start_PWM(&htim3);
     Start_PWM(&htim5);
@@ -38,14 +38,27 @@ void Motor_init(void)
 }
 
 void Motor_contrl(JOYSTICK_TypeDef JOYSTICK)
-{  
-   v_input.vx = JOYSTICK.RJoy_LR-0x80;
-   v_input.vy = JOYSTICK.RJoy_UD-0x7f;
-   v_input.omega = JOYSTICK.LJoy_LR-0x80;//第一步处理
-   omni_wheel_inverse_kinematics(v_input,&chassis);
-   Set_PWM(&htim3,fof_update(&chassis.motors[0]),fof_update(&chassis.motors[1]));
+{  if (JOYSTICK.mode==0x73){
+    v_input.vx = JOYSTICK.RJoy_LR-0x80;
+    v_input.vy = JOYSTICK.RJoy_UD-0x7f;
+    v_input.omega = JOYSTICK.LJoy_LR-0x80;//第一步处理
+    
+    
+    }else
+    {
+        v_input.vx = 0;
+        v_input.vy = 0;
+        v_input.omega = 0;
+    }
+    omni_wheel_inverse_kinematics(v_input, &chassis);   
+Set_PWM(&htim3,fof_update(&chassis.motors[0]),fof_update(&chassis.motors[1]));
 
     Set_PWM(&htim5,fof_update(&chassis.motors[2]),fof_update(&chassis.motors[3])); 
+    HAL_IWDG_Refresh(&soft_reset); // 使用生成的句柄变量进行喂狗
+//	JOYSTICK.RJoy_LR=0x80;
+//    JOYSTICK.RJoy_UD=0x7f;
+//    JOYSTICK.LJoy_LR=0x80;
+	
 }
 void Set_PWM(TIM_HandleTypeDef *htim,int motor_left,int motor_right)
 {	motor_left = (motor_left > 7200) ? 7200 : motor_left;

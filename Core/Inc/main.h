@@ -57,6 +57,7 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define soft_reset hiwdg
 
 /* USER CODE BEGIN Private defines */
 

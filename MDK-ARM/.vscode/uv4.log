@@ -1,4 +1,2 @@
 Load "f405demo\\f405demo.axf" 
-Erase Failed!RDDI-DAP Error
-Error: Flash Download failed  -  "Cortex-M4"
-Flash Load finished at 16:38:11
+Erase Done.Programming Done.Verify OK.Flash Load finished at 20:56:00

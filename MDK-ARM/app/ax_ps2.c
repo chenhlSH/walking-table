@@ -10,7 +10,7 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
     // 2. 您可以安全地处理这前半部分数据
     // 例如：Process_Received_Data(rx_buffer, RX_BUFFER_SIZE / 2);
 	uart_rx_complete = 1;
-	  
+	
 	 
     // 示例：点亮一个LED指示半传输发生
     // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);

@@ -27,6 +27,7 @@ f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
 f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
+f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_iwdg.h
 f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 f405demo\ax_ps2.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
@@ -45,5 +46,6 @@ f405demo\ax_ps2.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 f405demo\ax_ps2.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 f405demo\ax_ps2.o: ../Core/Inc/usart.h
 f405demo\ax_ps2.o: app\MotorContrl.h
+f405demo\ax_ps2.o: ../Core/Inc/iwdg.h
 f405demo\ax_ps2.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 f405demo\ax_ps2.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

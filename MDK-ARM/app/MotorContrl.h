@@ -1,9 +1,10 @@
 #ifndef __PWM_H
 #define	__PWM_H
-#include "stm32f4xx_hal.h"       // ��HAL��ͷ�ļ�
-#include "stm32f4xx_hal_tim.h"   // ��ʱ��HAL��ͷ�ļ�
+#include "stm32f4xx_hal.h"       
+#include "stm32f4xx_hal_tim.h"   
 #include "main.h"
 #include "cmsis_os.h"
+#include "iwdg.h"
 #define MOTORNUMBER 4
 
 extern TIM_HandleTypeDef htim3;
