@@ -1,4 +1,56 @@
+# Ignore build outputs, intermediate files, and IDE workspace files
 
+# Build directories
+# Debug/
+# Release/
+# build/
+# f405demo/
+# DebugConfig/
+# RTE/
+
+# Object, binary and map files
+*.o
+*.obj
+*.axf
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.sct
+*.icf
+
+# Dependency and intermediate files
+*.d
+*.dep
+*.crf
+
+# Assembler, listings, and source-generated files
+*.s
+
+# IDE / project files (generated)
+*.ewp
+*.ewd
+*.uvprojx
+*.uvoptx
+*.lnp
+
+# Logs, reports, and generated HTML
+*.html
+*.log
+
+# Editor / OS temporary files
+.vscode/
+.vs/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+
+# Generic build folders
+Build/
+
+# Keep repository source and hand-written project files
 .history/
 
 
