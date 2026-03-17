@@ -1,5 +1,6 @@
 #include "MotorContrl.h"
 #include "utils.h"
+#include "encode.h"
 
 const float k_=0.1;  // Smoothing factor (0 < k < 1)
 
@@ -30,9 +31,10 @@ void Motor_init(void)
 {
     // Stop_PWM(&htim3);
     // Stop_PWM(&htim5);
-	
+	Encoder_StartAll();
     Start_PWM(&htim3);
-    Start_PWM(&htim5);
+    Start_PWM(&htim5);//轮子运动
+	
     //Setup_Filters();
 
 }

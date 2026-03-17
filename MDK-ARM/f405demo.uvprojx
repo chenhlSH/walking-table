@@ -975,6 +975,11 @@
               <FileType>1</FileType>
               <FilePath>.\app\utils.c</FilePath>
             </File>
+            <File>
+              <FileName>encode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\app\encode.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
