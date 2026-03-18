@@ -12,7 +12,69 @@
 
 # --- 编译生成的中间文件和目标文件 ---
 *.o
+# Ignore build outputs, intermediate files, and IDE workspace files
+
+# Build directories
+Debug/
+Release/
+build/
+f405demo/
+DebugConfig/
+RTE/
+
+# Object, binary and map files
+*.o
+*.obj
+*.axf
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.sct
+*.icf
+
+# Dependency and intermediate files
 *.d
+*.dep
+*.crf
+
+# Assembler, listings, and source-generated files
+*.s
+
+# IDE / project files (generated)
+*.ewp
+*.ewd
+*.uvprojx
+*.uvoptx
+*.lnp
+
+# Logs, reports, and generated HTML
+*.html
+*.log
+
+# Editor / OS temporary files
+.vscode/
+.vs/
+.idea/
+*~
+*.swp
+*.swo
+Thumbs.db
+
+# Generic build folders
+Build/
+
+# Keep repository source and hand-written project files
+.history/
+
+
+# Keil/MDK and IDE-specific generated files
+# --- 编译生成的中间文件和目标文件 ---
+*.o
+*.obj
+*.d
+*.dep
 *.crf
 *.lst
 *.map
@@ -22,28 +84,35 @@
 *.bin
 *.sct
 
-
-
 # --- 其他临时和日志文件 ---
 *.bak
-*.dep
 *.htm
 *.build_log.htm
 *.iex
 *.plg
 *.tra
 
-# --- 运行时环境 (RTE) 中的可生成文件（根据项目需要决定） ---
-# 如果 RTE 目录下的文件是自动生成的，可以忽略整个目录
-# RTE/
+# Ignore RTE generated files if present
+RTE/
 
-# --- 但需要保留的重要工程文件（使用 ! 强制跟踪） ---
+# Keep important project files tracked
 !*.uvprojx
 !*.uvmpw
 
-# --- 源代码文件（通常需要跟踪） ---
+# Source files (usually tracked)
 !*.c
 !*.h
 !*.s
 !*.cpp
 !*.inc
+
+# Ignore per-project generated folders under MDK/ARM output
+MDK-ARM/**/Debug/
+MDK-ARM/**/Release/
+MDK-ARM/**/f405demo/
+
+# Local editor settings and history
+.vscode/
+.vs/
+.idea/
+.history/
